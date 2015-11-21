@@ -82,6 +82,13 @@ var coreJS = coreJS || {};
                 error: function () {}
             };
         }
+        
+        /* Need to be move to core.module.js*/
+        this.parseHTML = function (string) {
+            var el = document.createElement('div');
+            el.innerHTML = string;
+            return el.children;
+        };
 
         /**
          * Proccess the request call Callback.
@@ -99,7 +106,8 @@ var coreJS = coreJS || {};
                                 this.successFN(request.response);
                             }
                         } else if (this.dataType === 'HTML') {
-                            this.successFN(request.response);
+                            var html = this.parseHTML(request.response);
+                            this.successFN(html);
                         } else if (this.dataType === 'XML') {
                             if (request.responseXML === null && request.response !== '') {
                                 console.warn('Data type given indicates XML but different was returned by the server. So response was left as it has been originally.');
@@ -182,6 +190,5 @@ var coreJS = coreJS || {};
         };
 
     };
-
-
+    
 }(coreJS));
