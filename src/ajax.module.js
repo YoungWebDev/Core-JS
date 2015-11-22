@@ -89,6 +89,15 @@ var coreJS = coreJS || {};
             el.innerHTML = string;
             return el.children;
         };
+        
+        this.warnMsgs = {
+            dataType: 'Data type given indicates {{dataType}} but different was returned by the server. So response was left as it has been originally.'
+        };
+        
+        this.warnHandler = function (type, value) {
+            var warn = this.warnMsgs[type].replace('{{'+type+'}}', value);
+            console.warn(warn);
+        }.bind(this);
 
         /**
          * Proccess the request call Callback.
@@ -102,7 +111,7 @@ var coreJS = coreJS || {};
                             try {
                                 this.successFN(JSON.parse(request.response));
                             } catch (error) {
-                                console.warn('Data type given indicates JSON but different was returned by the server. So response was left as it has been originally.');
+                                this.warnHandler('dataType', 'JSON');
                                 this.successFN(request.response);
                             }
                         } else if (this.dataType === 'HTML') {
@@ -110,7 +119,7 @@ var coreJS = coreJS || {};
                             this.successFN(html);
                         } else if (this.dataType === 'XML') {
                             if (request.responseXML === null && request.response !== '') {
-                                console.warn('Data type given indicates XML but different was returned by the server. So response was left as it has been originally.');
+                                this.warnHandler('dataType', 'XML');
                                 this.successFN(request.response);
                             } else {
                                 this.successFN(request.responseXML);
@@ -192,3 +201,10 @@ var coreJS = coreJS || {};
     };
     
 }(coreJS));
+
+coreJS.ajax({
+    url: 'http://localhost/sandbox/',
+    dataType: 'JSON'
+}).success(function () {
+    
+});
