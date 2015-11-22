@@ -8,7 +8,7 @@
 
   This module allow you to make ajax calls with no effort. 
 
-  Allowed methods (for now): **POST, GET**.
+  Allowed methods: **POST, GET, UPDATE, PUT, DELETE, OPTIONS**.
   Allowed data types: **TEXT, HTML, JSON, XML**.
     
   ```js
@@ -24,6 +24,18 @@
     
   }).error(function (response) {
   
+  });
+  
+Or if you would like to put your success and error handlers into options object, now you can do it :-)
+  
+  coreJS.ajax({
+    url: '',
+    method: '', // Default POST
+    dataType: '', //Default JSON
+    async: true, // Default true
+    data: variable,
+    success: function (){},
+    error: function (){}
   });
   
   //SYNC - Return whole XMLHttpRequest
