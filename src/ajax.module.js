@@ -24,7 +24,7 @@ var coreJS = coreJS || {};
          * Allowed values
          */
         this.allowed = {
-            method: ['POST', 'GET'],
+            method: ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
             dataType: ['JSON', 'TEXT', 'HTML', 'XML']
         };
 
@@ -64,7 +64,7 @@ var coreJS = coreJS || {};
          */
         Object.keys(this.allowed).forEach(function (param) {
             if (this.allowed[param].indexOf(this[param]) === -1) {
-                console.error('The ' + param + ' given is incorrect or not supported. "' + this[param] + '"');
+                console.error(param.charAt(0).toUpperCase() + param.slice(1) + ' "'+ this[param] + '" is incorrect or not supported.');
                 this.errors = true;
             }
         }.bind(this));
@@ -176,16 +176,28 @@ var coreJS = coreJS || {};
         } // ASYNC FALSE
 
         this.request = null;
+        
+        /**
+         * Support for success and error method given as a parameter
+         */
+        
+        this.isAFunction(this.error, function () {
+            this.errorFN = this.error;    
+        }.bind(this));
+        
+        this.isAFunction(this.success, function () {
+            this.successFN = this.success;    
+        }.bind(this));
 
         /**
          * This function will be launch if the request return code 200.
          * @param   {function} FN User's function which will be fired if request return code 200. The response will be passed as a function parameter.
          * @returns {object} Whole coreJS.ajax object.
          */
-        this.success = function (FN) {
+        this.successHandler = function (FN) {
             this.successFN = FN;
             return {
-                error: this.error
+                error: this.errorHandler
             };
         }.bind(this);
 
@@ -193,10 +205,10 @@ var coreJS = coreJS || {};
          * @param   {function} FN Error handler. Error response will be passed as a function parameter.
          * @returns {object} Whole coreJS.ajax object.
          */
-        this.error = function (FN) {
+        this.errorHandler = function (FN) {
             this.errorFN = FN;
             return {
-                success: this.success
+                success: this.successHandler
             };
         }.bind(this);
 
@@ -207,8 +219,8 @@ var coreJS = coreJS || {};
         }
 
         return {
-            success: this.success,
-            error: this.error,
+            success: this.successHandler,
+            error: this.errorHandler,
         };
 
     };
