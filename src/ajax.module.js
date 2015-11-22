@@ -82,21 +82,54 @@ var coreJS = coreJS || {};
                 error: function () {}
             };
         }
-        
-        /* Need to be move to core.module.js*/
-        this.parseHTML = function (string) {
-            var el = document.createElement('div');
-            el.innerHTML = string;
-            return el.children;
-        };
-        
+
         this.warnMsgs = {
             dataType: 'Data type given indicates {{dataType}} but different was returned by the server. So response was left as it has been originally.'
         };
-        
+
         this.warnHandler = function (type, value) {
-            var warn = this.warnMsgs[type].replace('{{'+type+'}}', value);
+            var warn = this.warnMsgs[type].replace('{{' + type + '}}', value);
             console.warn(warn);
+        }.bind(this);
+
+        this.isAFunction = function (FN, callback) {
+            if (typeof FN === 'function') {
+                callback();
+            }
+        };
+
+        this.parseHTML = function (response) {
+            var el = document.createElement('div');
+            el.innerHTML = response.response;
+            this.successFN(el.children);
+        }.bind(this);
+
+        this.parseJSON = function (response) {
+            try {
+                this.successFN(JSON.parse(response.response));
+            } catch (error) {
+                this.warnHandler('dataType', 'JSON');
+                this.successFN(response.response);
+            }
+        }.bind(this);
+
+        this.parseXML = function (response) {
+            if (response.responseXML === null && response.response !== '') {
+                this.warnHandler('dataType', 'XML');
+                this.successFN(response.response);
+            } else {
+                this.successFN(response.responseXML);
+            }
+        }.bind(this);
+
+        this.redirectToProperParser = function (request) {
+            this.isAFunction(this.successFN, function () {
+                if (typeof this['parse' + this.dataType] === 'function') {
+                    this['parse' + this.dataType](request);
+                } else {
+                    this.successFN(request.responseText);
+                }
+            }.bind(this));
         }.bind(this);
 
         /**
@@ -106,32 +139,12 @@ var coreJS = coreJS || {};
         this.proccessRequest = function (request) {
             if (request.readyState === 4) {
                 if (request.status >= 200 && request.status < 400) {
-                    if (typeof this.successFN === 'function') {
-                        if (this.dataType === 'JSON') {
-                            try {
-                                this.successFN(JSON.parse(request.response));
-                            } catch (error) {
-                                this.warnHandler('dataType', 'JSON');
-                                this.successFN(request.response);
-                            }
-                        } else if (this.dataType === 'HTML') {
-                            var html = this.parseHTML(request.response);
-                            this.successFN(html);
-                        } else if (this.dataType === 'XML') {
-                            if (request.responseXML === null && request.response !== '') {
-                                this.warnHandler('dataType', 'XML');
-                                this.successFN(request.response);
-                            } else {
-                                this.successFN(request.responseXML);
-                            }
-                        } else {
-                            this.successFN(request.responseText);
-                        } // IF JSON
-                    } // IF FUNCTION
+                    this.redirectToProperParser(request);
                 } else {
-                    if (typeof this.errorFN === 'function') {
-                        this.errorFN(request.status + ' ' + request.statusText);
-                    }
+                    this.isAFunction(this.errorFN, function () {
+                        console.error(request.status + ' ' + request.statusText + ' ('+ this.method +') - ' + request.responseURL);
+                        this.errorFN(request);
+                    }.bind(this));
                 } // IF STATUS
             } // IF READY STATE  
         }.bind(this);
@@ -199,12 +212,5 @@ var coreJS = coreJS || {};
         };
 
     };
-    
-}(coreJS));
 
-coreJS.ajax({
-    url: 'http://localhost/sandbox/',
-    dataType: 'JSON'
-}).success(function () {
-    
-});
+}(coreJS));
