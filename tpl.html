@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Template engine</title>
+</head>
+
+<body>
+
+    <div data-bind='mode'>this should not be visible</div>
+    <div data-bind='mode'>this should not be visible</div>
+    <div data-bind='user'>
+        {{name}} {{last_name}}
+    </div>
+    <div data-bind='user'>
+        {{last_name}} {{name}}
+    </div>
+    <div data-bind='list'>
+        <li>
+            <p>{{name}}</p>
+            <p>{{last_name}}</p>
+        </li>
+    </div>
+    <script src="src/tpl.module.js"></script>
+</body>
+
+</html>
