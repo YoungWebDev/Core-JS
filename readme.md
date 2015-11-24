@@ -47,3 +47,38 @@ Or if you would like to put your success and error handlers into options object,
     data: variable
   }).request;
   ```
+  
+   **TEMPLATE ENGINE** (tpl.module.js)
+   
+   Supported types of data: Array, Object, String.
+    
+  ```js
+  
+
+  coreJS.tpl({
+    user: {name: 'John', last_name: 'Smith'},
+    skills: [
+        {name: 'PHP'},
+        {name: 'Javascipt'}
+    ],
+    hello_msg: 'Hello world!'
+  });
+  
+  OBJECT
+  
+  <div data-bind='user'>
+      {{name}} {{last_name}}
+  </div>
+  
+  ARRAY
+  
+  <div data-bind='skills'>
+      I know {{name}}
+  </div>
+  
+  STRING
+  
+  <p data-bind='hello_msg'></p>
+  
+  ```
+
