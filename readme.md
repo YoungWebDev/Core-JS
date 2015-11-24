@@ -51,6 +51,8 @@ Or if you would like to put your success and error handlers into options object,
    **TEMPLATE ENGINE** (tpl.module.js)
    
    Supported types of data: Array, Object, String.
+   
+   *WARNING* - This coreJS module can be unstable or do not work in proper way. It's alpha.
     
   ```js
   
