@@ -48,7 +48,58 @@ Or if you would like to put your success and error handlers into options object,
   }).request;
   ```
   
-   **TEMPLATE ENGINE** (tpl.module.js)
+   **TEMPLATE ENGINE** (dom.module.js)
+   
+   Supported types of data: Array, Object, String.
+    
+  ```js
+  
+
+  coreJS.$scope({
+    user: {name: 'John', last_name: 'Smith'},
+    skills: [
+        {name: 'PHP'},
+        {name: 'Javascipt'}
+    ],
+    hello_msg: 'Hello world!'
+  });
+  
+  coreJS.$scope('hello_msg', 'Hello World!');
+  
+  coreJS.$scope('user', {name:"John", last_name:"Smith"});
+  
+  coreJS.$scope().hello_msg = 'Hello world again!';
+  
+  Or simple
+  
+  $scope.hello_msg = 'Hello world!';
+  
+  $scope.user = {name:'John', last_name:'Smith'};
+  
+  $scope.skills = [
+        {name: 'PHP'},
+        {name: 'Javascipt'}
+    ];
+  
+  OBJECT
+  
+  <div data-bind='user'>
+      {{name}} {{last_name}}
+  </div>
+  
+  ARRAY
+  
+  <div data-bind='skills'>
+      I know {{name}}
+  </div>
+  
+  STRING
+  
+  <p data-bind='hello_msg'></p>
+  
+  ```
+  
+   **TEMPLATE ENGINE (OLD, NO SUPPORT)** (tpl.module.js)
    
    Supported types of data: Array, Object, String.
    

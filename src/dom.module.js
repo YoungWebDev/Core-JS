@@ -1,4 +1,5 @@
 var coreJS = coreJS || {};
+var $scope = $scope || {};
 
 (function (coreJS) {
     'use strict';
@@ -163,5 +164,7 @@ var coreJS = coreJS || {};
             _setScopeValue(key, value);
         }
     };
+    
+    $scope = new coreJS.$scope();
 
 }(coreJS));
