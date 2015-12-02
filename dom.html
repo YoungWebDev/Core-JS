@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>DOM</title>
+</head>
+
+<body>
+
+    <div data-bind='mode'>this should not be visible</div>
+    <div data-bind='mode'>this should not be visible</div>
+    <div data-bind='user'>
+        {{name}} {{last_name}}
+    </div>
+    <div data-bind='user'>
+        {{last_name}} {{name}}
+    </div>
+    <div data-bind='list'>
+        <div> {{name}} {{surrname}}</div>
+        <ul>
+            <li>{{name}}</li>
+            <li>{{surrname}}</li>
+            <li>{{sex}}</li>
+            <li>{{age}}</li>
+        </ul>
+    </div>
+    <script src="src/dom.module.js"></script>
+</body>
+
+</html>
