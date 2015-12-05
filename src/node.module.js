@@ -56,6 +56,30 @@ var coreJS = coreJS || {};
             return find;
         };
 
+        _.isAnObject = function (element) {
+            if (typeof element === 'object' && element.length === undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        _.isAString = function (element) {
+            if (typeof element === 'string') {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        _.isAnArray = function (element) {
+            if (typeof element === 'object' && element.length !== undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         _.each = function (callback, params) {
             Object.keys(t.lastQ).forEach(function (key) {
                 callback(t.lastQ[key], params);
@@ -68,52 +92,28 @@ var coreJS = coreJS || {};
          * PUBLIC VARIABLES & METHODS
         /*/
 
-        t.isAnObject = function (element) {
-            if (typeof element === 'object' && element.length === undefined) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        t.isAString = function (element) {
-            if (typeof element === 'string') {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        t.isAnArray = function (element) {
-            if (typeof element === 'object' && element.length !== undefined) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
         t.html = function (html) {
-            if (t.isAnArray(t.lastQ)) {
+            if (_.isAnArray(t.lastQ)) {
                 _.each(function (node, html) {
                     node.innerHTML = html;
                 }, html);
             } else {
                 t.lastQ.innerHTML = html;
             }
-            
+
             return t;
         };
 
         t.text = function (text) {
             text = _.escapeHtml(text);
-            if (t.isAnArray(t.lastQ)) {
+            if (_.isAnArray(t.lastQ)) {
                 _.each(function (node, text) {
                     node.innerHTML = text;
                 }, text);
             } else {
                 t.lastQ.innerHTML = text;
             }
-            
+
             return t;
         };
 
