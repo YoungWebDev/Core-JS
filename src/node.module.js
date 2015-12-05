@@ -144,8 +144,3 @@ var coreJS = coreJS || {};
 
 
 }(window, document, window.MutationObserver));
-
-coreJS.node('#parent').html('#parent');
-coreJS.node('.child').text('.child').html('script');
-
-window.console.log(coreJS.node('#parent').text());
