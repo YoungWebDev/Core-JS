@@ -143,11 +143,15 @@ Getting a dom element:
   coreJS.node('#element').get();
   ```
   
-  Changing a html, text, of the element:
+  Changing/Getting* a html, text, of the element:
+  
+  *working only when number of dom elements === 1.
     
   ```js
   coreJS.node('#element').html('html here');
   
   coreJS.node('.elements').text('text here');
+  
+  var html = coreJS.node('#element').html();
   ```
 

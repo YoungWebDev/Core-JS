@@ -93,25 +93,43 @@ var coreJS = coreJS || {};
         /*/
 
         t.html = function (html) {
-            if (_.isAnArray(t.lastQ)) {
-                _.each(function (node, html) {
-                    node.innerHTML = html;
-                }, html);
+
+            html = html || undefined;
+
+            if (html) {
+                if (_.isAnArray(t.lastQ)) {
+                    _.each(function (node, html) {
+                        node.innerHTML = html;
+                    }, html);
+                } else {
+                    t.lastQ.innerHTML = html;
+                }
             } else {
-                t.lastQ.innerHTML = html;
+                if (_.isAnObject(t.lastQ)) {
+                    return t.lastQ.innerHTML;
+                }
             }
 
             return t;
         };
 
         t.text = function (text) {
-            text = _.escapeHtml(text);
-            if (_.isAnArray(t.lastQ)) {
-                _.each(function (node, text) {
-                    node.innerHTML = text;
-                }, text);
+
+            text = text || undefined;
+
+            if (text) {
+                text = _.escapeHtml(text);
+                if (_.isAnArray(t.lastQ)) {
+                    _.each(function (node, text) {
+                        node.innerText = text;
+                    }, text);
+                } else {
+                    t.lastQ.innerText = text;
+                }
             } else {
-                t.lastQ.innerHTML = text;
+                if (_.isAnObject(t.lastQ)) {
+                    return t.lastQ.innerText;
+                }
             }
 
             return t;
@@ -130,4 +148,4 @@ var coreJS = coreJS || {};
 coreJS.node('#parent').html('#parent');
 coreJS.node('.child').text('.child').html('script');
 
-window.console.log(coreJS.node());
+window.console.log(coreJS.node('#parent').text());
