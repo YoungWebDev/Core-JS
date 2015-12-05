@@ -135,3 +135,19 @@ Or if you would like to put your success and error handlers into options object,
   
   ```
 
+**DOM helper** (node.module.js)
+
+Getting a dom element:
+    
+  ```js
+  coreJS.node('#element').get();
+  ```
+  
+  Changing a html, text, of the element:
+    
+  ```js
+  coreJS.node('#element').html('html here');
+  
+  coreJS.node('.elements').text('text here');
+  ```
+
