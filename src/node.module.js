@@ -138,6 +138,20 @@ var coreJS = coreJS || {};
         t.get = function () {
             return t.lastQ;
         };
+        
+        t.first = function (){
+            t.lastQ = t.lastQ[0];
+        };
+        t.last = function (){
+            t.lastQ = t.lastQ[t.lastQ.length - 1];
+        };
+        t.nth = function (nth){
+            if (typeof t.lastQ[nth] !== 'undefined') {
+                t.lastQ = t.lastQ[nth];
+            } else {
+                window.console.error('Child No. "' + nth + '" does not exist.');
+            }
+        };
 
         return this;
     };

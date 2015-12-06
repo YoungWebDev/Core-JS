@@ -137,10 +137,22 @@ Or if you would like to put your success and error handlers into options object,
 
 **DOM helper** (node.module.js)
 
-Getting a dom element:
+  Getting a dom element:
     
   ```js
   coreJS.node('#element').get();
+  ```
+  
+  Select: first, last, nth element.
+    
+  ```js
+  coreJS.node('.elements').first().text('First element!');
+  coreJS.node('.elements').last().text('Last element!');
+  coreJS.node('.elements').nth(2).text('Third element!');
+  
+  To get
+  
+  coreJS.node('.elements').first().get();
   ```
   
   Changing/Getting* a html, text, of the element:
